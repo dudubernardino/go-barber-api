@@ -2,9 +2,11 @@ import { uuid } from 'uuidv4';
 import { isEqual, getDate, getMonth, getYear } from 'date-fns';
 
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
-import ICreateAppointmentDTO from '@modules/appointments/dtos/ICreateAppointmentDTO';
-import IFindAllInMonthFromProviderDTO from '@modules/appointments/dtos/IFindAllInMonthFromProviderDTO';
-import IFindAllInDayFromProviderDTO from '@modules/appointments/dtos/IFindAllInDayFromProviderDTO';
+import {
+      FindAllInMonthFromProviderDTOProps,
+      FindAllInDayFromProviderDTOProps,
+      CreateAppointmentDTOProps}
+from '@modules/appointments/protocols/appointmentsProtocols';
 
 import Appointment from '../../infra/typeorm/entities/Appointment';
 
@@ -21,7 +23,7 @@ class AppointmentsRepository implements IAppointmentsRepository {
     provider_id,
     month,
     year,
-  }: IFindAllInMonthFromProviderDTO): Promise<Appointment[]> {
+  }: FindAllInMonthFromProviderDTOProps): Promise<Appointment[]> {
     const appointments = this.appointments.filter(
       (appointment) =>
         appointment.provider_id === provider_id &&
@@ -37,7 +39,7 @@ class AppointmentsRepository implements IAppointmentsRepository {
     day,
     month,
     year,
-  }: IFindAllInDayFromProviderDTO): Promise<Appointment[]> {
+  }: FindAllInDayFromProviderDTOProps): Promise<Appointment[]> {
     const appointments = this.appointments.filter(
       (appointment) =>
         appointment.provider_id === provider_id &&
@@ -49,7 +51,7 @@ class AppointmentsRepository implements IAppointmentsRepository {
     return appointments;
   }
 
-  public async create({ provider_id, user_id, date }: ICreateAppointmentDTO): Promise<Appointment> {
+  public async create({ provider_id, user_id, date }: CreateAppointmentDTOProps): Promise<Appointment> {
     const appointment = new Appointment();
 
     Object.assign(appointment, {
