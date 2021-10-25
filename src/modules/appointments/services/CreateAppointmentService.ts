@@ -9,11 +9,8 @@ import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICa
 import INotificationsRepository from '@modules/notifications/repositories/INotificationsRepository';
 import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
 
-interface IRequest {
-  provider_id: string;
-  user_id: string;
-  date: Date;
-}
+import { HttpRequestCreateAppointmentServiceProps } from './protocols/servicesProtocols';
+
 
 @injectable()
 class CreateAppointmentService {
@@ -28,7 +25,7 @@ class CreateAppointmentService {
     private cacheProvider: ICacheProvider
   ) {}
 
-  public async execute({ date, provider_id, user_id }: IRequest): Promise<Appointment> {
+  public async execute({ date, provider_id, user_id }: HttpRequestCreateAppointmentServiceProps): Promise<Appointment> {
     const appointmentDate = startOfHour(date);
 
     if (isBefore(appointmentDate, Date.now())) {

@@ -1,13 +1,4 @@
-interface IMailConfig {
-  driver: 'ethereal' | 'ses';
-
-  defaults: {
-    from: {
-      email: string;
-      name: string;
-    };
-  };
-}
+import { MailConfigProps } from "@config/protocols/configProtocols";
 
 export default {
   driver: process.env.MAIL_DRIVER || 'ethereal',
@@ -18,4 +9,4 @@ export default {
       name: 'Eduardo da Rocketseat',
     },
   },
-} as IMailConfig;
+} as MailConfigProps;
